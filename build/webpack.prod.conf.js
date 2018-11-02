@@ -14,7 +14,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const env = require('../config/prod.env')
 
-const env = (process.env.NODE_ENV === 'test') ? 'test.env' : 'production.env'
+const envFile = (process.env.NODE_ENV === 'test') ? 'test.env' : 'production.env'
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -32,7 +32,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     new Dotenv({
-      path: path.resolve(__dirname, '..', 'config', env), // load this now instead of the ones in '.env'
+      path: path.resolve(__dirname, '..', 'config', envFile), // load this now instead of the ones in '.env'
       systemvars: true, // load all the predefined 'process.env' variables which will trump anything local per dotenv specs.
       silent: false // hide any errors
     }),
