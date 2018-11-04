@@ -1,40 +1,36 @@
 'use strict'
 
 describe('Pruebas del Login', () => {
-    
+    before( () => {
+        cy.exec('npm run test:clean')
+    })
+
     beforeEach( () => {
         cy.fixture('user.json').as('userData')
         cy.visit('/login')
         cy.contains('h1', 'Bienvenido').should('be.visible')
     })
     
-    it.skip('Debe registrar un usuario', () => {
+    it
+    ('Debe registrar un usuario', () => {
         cy.get('@userData').then( (userData) => {
-            cy.contains('Crear una cuenta').click()
-            cy.get('#name').type(userData.name)
-            cy.get('#title').type(userData.company)
-            cy.get('#email2').type(userData.email)
-            cy.get('#password2').type(userData.password)
-            cy.contains('.button', 'Registrarse').click()
-            cy.wait(3000)
-            cy.get('.error-msg').should('not.exist')
+            cy.createUser(userData)
+            cy.screenshot('create-user')
         })
     })
 
     it('Debe fallar con un usuario erróneo', () => {
-        cy.get('#email1').type('noexiste@test.com')
-        cy.get('#password1').type('test1234')
-        cy.contains('.button', 'Ingresar').click()
-        cy.wait(3000)
-        cy.get('.error-msg').should('be.visible')
+        cy.get('@userData').then((userData) => {
+            cy.loginUser('fail@test.com', 'test1234')
+            cy.get('.error-msg').should('be.visible')
+            cy.screenshot('login-failed', { blackout: ['#email1'] })
+        })
     })
 
     it('Debe Loguear un usuario', () => {
         cy.get('@userData').then( (userData) => {
-            cy.get('#email1').type(userData.email)
-            cy.get('#password1').type(userData.password)
-            cy.contains('.button', 'Ingresar').click()
-            cy.wait(3000)
+            cy.loginUser(userData.email, userData.password)
+            cy.screenshot('login-user')
             cy.contains('a', 'Dashboard').should('be.visible')
         })
     })
