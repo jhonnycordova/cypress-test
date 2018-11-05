@@ -14,7 +14,9 @@
     "test:server": "pushstate-server dist",
     "test:init": "npm run test:server",
     "test:dev": "npm run build:test && run-p --race test:server cypress:open",
+    "test": "npm run build:test && run-p --race test:server cypress:run",
     "cypress:open": "cypress open --project ./test",
+    "cypress:run": "cypress run --project ./test",
     "test:clean": "cd build && node clean-test-db.js"
   },
   "dependencies": {

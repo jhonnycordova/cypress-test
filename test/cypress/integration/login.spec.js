@@ -15,7 +15,7 @@ describe('Pruebas del Login', () => {
     ('Debe registrar un usuario', () => {
         cy.get('@userData').then( (userData) => {
             cy.createUser(userData)
-            cy.screenshot('create-user')
+            // cy.screenshot('create-user')
         })
     })
 
@@ -23,14 +23,14 @@ describe('Pruebas del Login', () => {
         cy.get('@userData').then((userData) => {
             cy.loginUser('fail@test.com', 'test1234')
             cy.get('.error-msg').should('be.visible')
-            cy.screenshot('login-failed', { blackout: ['#email1'] })
+            // cy.screenshot('login-failed', { blackout: ['#email1'] })
         })
     })
 
     it('Debe Loguear un usuario', () => {
         cy.get('@userData').then( (userData) => {
             cy.loginUser(userData.email, userData.password)
-            cy.screenshot('login-user')
+            // cy.screenshot('login-user')
             cy.contains('a', 'Dashboard').should('be.visible')
         })
     })
